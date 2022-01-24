@@ -1,7 +1,7 @@
 import React, {useRef, useEffect, useState} from 'react';
 import {StyleSheet, Text, View, FlatList, Image, Pressable} from 'react-native';
 import {} from 'react-native-gesture-handler';
-import {categoriesList, bestSellersList} from '../../utils/MockData';
+import {categoriesList, bestSellersList, productListData} from '../../utils/MockData';
 import {appColors, shadow} from '../../utils/appColors';
 import TouchableRipple from 'react-native-touch-ripple';
 import Label from '../../components/Label';
@@ -17,12 +17,12 @@ import ReduxWrapper from '../../utils/ReduxWrapper';
 import TestComp from '../../components/TestComp';
 import NativeAdView from 'react-native-admob-native-ads';
 import {ANDROID_FULL_PAGE_AD_ID} from '../../utils/appConfig';
-function Home({getProducts$,getProductsList$, addToCart$, navigation,products:{products}}) {
+function Home({getProducts$, addToCart$, navigation}) {
   const nativeAdViewRef = useRef();
-    useEffect(() => { 
-    //nativeAdViewRef.current?.loadAd();
-    getProductsList$()
-  }, [/* nativeAdViewRef */]);  
+  useEffect(() => {
+    //auth().signOut()
+    nativeAdViewRef.current?.loadAd();
+  }, [nativeAdViewRef]);
   console.log({nativeAdViewRef});
   const RenderTitle = ({heading, rightLabel}) => {
     return <TitleComp heading={heading} rightLabel={rightLabel} />;
@@ -34,8 +34,18 @@ function Home({getProducts$,getProductsList$, addToCart$, navigation,products:{p
     console.warn('i am clicked');
   };
   return (
-    <Container isScrollable style={styles.container}> 
-      <SearchBox onFoucs={() => navigation.navigate('Search')} /> 
+    <Container isScrollable style={styles.container}>
+     {/*  <NativeAdView
+        style={{height: scale(100), width:'100%'}}
+        ref={nativeAdViewRef}
+        enableTestMode
+        onAdLoaded={()=> console.log("add loaded")}
+        onAdFailedToLoad={(err)=> console.log("add loaded",err)}
+        adUnitID={  ANDROID_FULL_PAGE_AD_ID   } 
+         
+        />  */}
+      <SearchBox onFoucs={() => navigation.navigate('Search')} />
+
       <View style={{paddingVertical: scale(30)}}>
         <RenderTitle heading="Categories" />
         <FlatList
@@ -84,7 +94,7 @@ function Home({getProducts$,getProductsList$, addToCart$, navigation,products:{p
           showsHorizontalScrollIndicator={false}
           ItemSeparatorComponent={() => <View style={{padding: scale(10)}} />}
           horizontal
-          data={products}
+          data={productListData}
           renderItem={({item, index}) => (
             <ProductCard key={index} item={item} />
           )}

@@ -15,8 +15,9 @@ import {addToCart} from '../../redux/cartAction';
 import ReduxWrapper from '../../utils/ReduxWrapper';
 
 function index({wishList:{wishItemNames}, cart:{ cartItems },addToWishList$,addToCart$, navigation,route:{params}}) {
-   
-  const {id,title, name,description, detail, price, size, color, image, isFav,rating} = params.item;
+  //item
+    console.log({wishItemNames});
+  const {title, description, price, size, color, thumbnail, isFav} = params.item;
   //console.warn({cartItems});
   const onAddToCart = () => {
     addToCart$({...params.item, quantity:1});
@@ -40,7 +41,7 @@ function index({wishList:{wishItemNames}, cart:{ cartItems },addToWishList$,addT
           <ImageBackground
             style={{height: scale(400), width: '100%'}}
             resizeMode="cover"
-            source={{uri:image} }>
+            source={{uri:thumbnail}}>
             <View
               style={{
                 marginTop: scale(40),
@@ -67,7 +68,7 @@ function index({wishList:{wishItemNames}, cart:{ cartItems },addToWishList$,addT
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Feather name="star" size={scale(20)} color={wishItemNames?.includes(name )? appColors.primary : appColors.black} />
+                <Feather name="star" size={scale(20)} color={wishItemNames?.includes(title )? appColors.primary : appColors.black} />
               </Pressable>
             </View>
           </ImageBackground>
